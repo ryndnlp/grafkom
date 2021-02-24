@@ -13,6 +13,7 @@ class Poligon{
       this.vertices.push(Math.cos(2 * Math.PI * i / sides) * r+ this.x, Math.sin(2 * Math.PI * i / sides) * r + this.y);
     }
     this.vertices = new Float32Array([...this.vertices])
+    this.tipe = 'poligon';
   }
   draw(){
     gl.bindBuffer(gl.ARRAY_BUFFER, buffer)

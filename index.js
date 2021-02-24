@@ -195,6 +195,12 @@ function importFile(){
           v = new Float32Array([...v]);
           item.vertices = v;
           objects.push(new Persegi(v, item.color));
+        }else if(item.tipe == 'poligon'){
+          let v = [];
+          Object.values(item.vertices).forEach(val => {v.push(val)});
+          v = new Float32Array([...v]);
+          item.vertices = v;
+          objects.push(new Poligon(item.sides, item.color, item.x, item.y, item.r));
         }
       })
       console.log(objects)
