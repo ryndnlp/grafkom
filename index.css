@@ -1,0 +1,14 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+canvas{
+  padding-left: 0;
+  padding-right: 0;
+  display: block;
+  border: 1px black solid;
+  width: 700px;
+  height: 700px;
+}
