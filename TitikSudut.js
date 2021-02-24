@@ -1,27 +1,26 @@
 class TitikSudut{
   
   constructor(x, y, changeSudut){
-    const rad = 0.030;
-    this.x1 = x-rad;
-    this.y1 = y-rad;
-    this.x2 = x+rad;
-    this.y2 = y-rad;
-    this.x3 = x+rad;
-    this.y3 = y+rad;
-    this.x4 = x-rad;
-    this.y4 = y+rad;
+    this.rad = 0.025;
+    this.x1 = x-this.rad;
+    this.y1 = y-this.rad;
+    this.x2 = x+this.rad;
+    this.y2 = y-this.rad;
+    this.x3 = x+this.rad;
+    this.y3 = y+this.rad;
+    this.x4 = x-this.rad;
+    this.y4 = y+this.rad;
     this.changeSudut = changeSudut;
   }
   changeXY(x,y){
-    const rad = 0.030;
-    this.x1 = x-rad;
-    this.y1 = y-rad;
-    this.x2 = x+rad;
-    this.y2 = y-rad;
-    this.x3 = x+rad;
-    this.y3 = y+rad;
-    this.x4 = x-rad;
-    this.y4 = y+rad;
+    this.x1 = x-this.rad;
+    this.y1 = y-this.rad;
+    this.x2 = x+this.rad;
+    this.y2 = y-this.rad;
+    this.x3 = x+this.rad;
+    this.y3 = y+this.rad;
+    this.x4 = x-this.rad;
+    this.y4 = y+this.rad;
   }
   draw(){
     const arr = new Float32Array([
@@ -41,9 +40,8 @@ class TitikSudut{
     gl.drawArrays(gl.TRIANGLE_FAN, 0, arr.length / 2)
   }
 
-  
-  move(destX, destY, selected){
+  move(destX, destY, fromX, fromY){
     this.changeXY(destX, destY)
-    this.changeSudut(destX, destY, selected)
+    this.changeSudut(destX, destY, fromX, fromY)
   }
 }

@@ -1,7 +1,9 @@
-var self;
 class Persegi{
   constructor(vertices, color){
     this.vertices = vertices;
+    this.centerX = (vertices[0]+vertices[2]) / 2;
+    this.centerY = (vertices[1]+vertices[5]) / 2;
+    this.length = vertices[2] - vertices[0];
     this.color = color;
     if(!this.color){
       this.color = [100, 100, 100]
@@ -15,8 +17,6 @@ class Persegi{
   draw(){
     gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
     gl.bufferData(gl.ARRAY_BUFFER, this.vertices, gl.STATIC_DRAW)
-    console.log(this.vertices)
-    //console.log(this.ts1.join(this.ts2))
     gl.uniform4fv(program.color, [this.color[0]/255, this.color[1]/255, this.color[2]/255, 1.0])
 
     gl.enableVertexAttribArray(program.position)
@@ -31,15 +31,34 @@ class Persegi{
     this.ts3.draw();
     this.ts4.draw();
   }
-  changeSudut = (x, y, selected) =>{
-    console.log('a')
-    console.log(this)
-    // this.vertices[0] = x
-    // this.vertices[1] = y;
-    //this.ts1.changeXY(x, y)
-    console.log((selected-1)*2, selected*2-1)
-    this.vertices[(selected-1)*2] = x
-    this.vertices[selected*2-1] = y
+  changeSudut = (destX, destY, fromX, fromY) =>{
+    console.log(destX, destY, fromX, fromY)
+    let diffX = destX - fromX;
+    let diffY = destY - fromY;
+    let len;
+    if(Math.abs(diffX) > Math.abs(diffY)){
+      len = diffX;
+    }else{
+      len = diffY;
+    }
+    this.vertices[0] += len;
+    this.vertices[1] += len;
+    this.vertices[2] -= len;
+    this.vertices[3] += len;
+    this.vertices[4] -= len;
+    this.vertices[5] -= len;
+    this.vertices[6] += len;
+    this.vertices[7] -= len;
+    this.ts1.changeXY(this.vertices[0], this.vertices[1]);
+    this.ts2.changeXY(this.vertices[2], this.vertices[3]);
+    this.ts3.changeXY(this.vertices[4], this.vertices[5]);
+    this.ts4.changeXY(this.vertices[6], this.vertices[7]);
     drawAll()
   }
+  changeColor(color){
+    this.color = color;
+    drawAll();
+  }
 }
+
+//drag trus check di dalem/luar. titik terakhir - pusat cari max. 

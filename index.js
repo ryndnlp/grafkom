@@ -7,13 +7,8 @@ canvas.id = 'canvas'
 
 
 var gl = canvas.getContext('webgl');
-var vertices;
 
-const hexToRgb = hex =>
-  hex.replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i
-             ,(m, r, g, b) => '#' + r + r + g + g + b + b)
-    .substring(1).match(/.{2}/g)
-    .map(x => parseInt(x, 16))
+
 
 var vertexShader = gl.createShader(gl.VERTEX_SHADER)
   gl.shaderSource(vertexShader, [
@@ -97,57 +92,59 @@ function persegi(){
   objects.push(l)
 }
 
+//Global vars
 var objects = [];
+var fromX;
+var fromY;
+var destX;
+var destY;
 
 
-function isInside(x, y, titikSudut){
-  return titikSudut.x1 <= x && titikSudut.x3 >= x && titikSudut.y3 >= y && titikSudut.y1 <= y; 
-}
 
-const getCoorX = (x) => {
-  var coorX = 0
-  if(x >= 0){
-    coorX = (x - 350) / 350;
+let selectedTS;
+
+canvas.onmouseup = function(event){
+  if(!selectedTS){
+    return
   }
-  return coorX;
-}
-
-const getCoorY = (y) => {
-  var coorY = 0
-  if(y >= 0){
-    coorY = -1 * (y - 350) / 350;
+  destX = getCoorX(event.clientX)
+  destY = getCoorY(event.clientY)
+  console.log(destX, destY)
+  selectedTS.move(destX, destY, fromX, fromY);
+  if(!selectedObj){
+    return;
   }
-  return coorY;
+  var color = document.getElementById('color');
+  var val = hexToRgb(color.value);
+  selectedObj.changeColor(val);
 }
 
-let isObject = false;
-let selected;
-let idx;
+var selectedObj;
 
-canvas.onmousedown = function(event){
-  selected = undefined;
-  const x = getCoorX(event.clientX)
-  const y = getCoorY(event.clientY)
-  checkSelectedTitikSudut(x, y)
+function checkSelectedObject(x, y){
+  selectedObj = undefined;
+  for(let obj of objects){
+    if(isInsideBentuk(x, y, obj)){
+      selectedObj = obj;
+      break;
+    }
+  }
 }
+
 
 function checkSelectedTitikSudut(x, y){
   for(let obj of objects){
-    if(isInside(x, y, obj.ts1)){
-      selected = obj.ts1;
-      idx = 1;
+    if(isInsideSudut(x, y, obj.ts1)){
+      selectedTS = obj.ts1;
     }
-    else if(isInside(x, y, obj.ts2)){
-      selected = obj.ts2;
-      idx = 2;
+    else if(isInsideSudut(x, y, obj.ts2)){
+      selectedTS = obj.ts2;
     }
-    else if(isInside(x, y, obj.ts3)){
-      selected = obj.ts3;
-      idx = 3;
+    else if(isInsideSudut(x, y, obj.ts3)){
+      selectedTS = obj.ts3;
     }
-    else if(isInside(x, y, obj.ts4)){
-      selected = obj.ts4;
-      idx = 4;
+    else if(isInsideSudut(x, y, obj.ts4)){
+      selectedTS = obj.ts4;
     }
   }
 }
@@ -158,27 +155,14 @@ function drawAll(){
   })
 }
 
-function mouseMoveOnDrag(target, whileMove) {
-  var endMove = function () {
-      window.removeEventListener('mousemove', whileMove);
-      window.removeEventListener('mouseup', endMove);
-  };
+canvas.onmousedown = function(event){
+  selectedTS = undefined;
+  fromX = getCoorX(event.clientX)
+  fromY = getCoorY(event.clientY)
+  console.log(fromX, fromY);
 
-  target.addEventListener('mousedown', function (event) {
-      event.stopPropagation();
-      window.addEventListener('mousemove', whileMove);
-      window.addEventListener('mouseup', endMove);   
-  });
+  checkSelectedTitikSudut(fromX, fromY)
+
+  selectedObj = undefined;
+  checkSelectedObject(fromX, fromY)
 }
-
-mouseMoveOnDrag(
-  document.getElementById('canvas'),
-  function (event){
-    if(!selected){
-      return
-    }
-    const x = getCoorX(event.clientX)
-    const y = getCoorY(event.clientY)
-    selected.move(x,y,idx);
-  }
-)
