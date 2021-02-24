@@ -74,8 +74,15 @@ function makePersegi(){
 let pol;
 
 function makePoligon(){
-  pol = new Poligon(5, [0, 0, 200], 0.0, 0.0);
+  var sidesElm = document.getElementById('sides');
+  var sides = parseInt(sidesElm.value);
+  var radiusElm = document.getElementById('radius');
+  var radius = parseFloat(radiusElm.value);
+  console.log(sides, radius)
+  pol = new Poligon(sides, [0, 0, 200], 0.0, 0.0, radius);
   pol.draw()
+  objects.push(pol)
+  drawAll();
 }
 
 //Global vars

@@ -1,5 +1,5 @@
 class Poligon{
-  constructor(sides, color, x, y){
+  constructor(sides, color, x, y, r){
     this.sides = sides;
     this.color = color;
     if(!this.color){
@@ -8,9 +8,11 @@ class Poligon{
     this.vertices = [];
     this.x = x;
     this.y = y;
+    this.r = r;
     for (let i = 0; i < this.sides; i++) {
-      this.vertices.push(Math.cos(2 * Math.PI * i / sides) + this.x, Math.sin(2 * Math.PI * i / sides) + this.y);
+      this.vertices.push(Math.cos(2 * Math.PI * i / sides) * r+ this.x, Math.sin(2 * Math.PI * i / sides) * r + this.y);
     }
+    this.vertices = new Float32Array([...this.vertices])
   }
   draw(){
     gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
