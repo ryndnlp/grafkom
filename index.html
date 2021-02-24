@@ -20,6 +20,40 @@
     <button onclick="makePoligon()">Buat Poligon</button>
     <button onclick="exportFile()">Export</button>
     <input type="file" id="file" onchange="importFile()" />
+    <button onclick="showHelp()">Help</button>
+    <div id="help">
+      <p>Berikut cara menggambar benda dan mengaturnya pada web kami: </p>
+
+      <p> 1. Garis: </p>
+      <p> - Untuk menggambar garis, pengguna bisa menekan tombol garis pada pilihan tombol.</p>
+      <p> - Garis juga mempunyai fungsi mengatur panjangnya dengan cara menekan dan menahan salah satu titik ujung garis </p>
+      <p> dan menggesernya ke tempat yang diinginkan. </p>
+
+      <p>2. Persegi: </p>
+      <P> - Untuk menggambar persegi, pengguna pertama memasukkan input x1 dan y1 (bagian kiri bawah), x2 dan y2 (bagian kanan bawah), </p>
+      <p> x3 dan y3 (bagian kanan atas), x4, y4 (bagian kiri atas) pada bagian input titik persegi </p>
+      <p> Input yang valid contohnya -0.50,-0.50,0.50,-0.50,0.50,0.50,-0.50,0.50. </p>
+      <p> Selanjutnya pengguna menekan tombol BUat Persegi pada pilihan tombol. </P>
+      <P> - Pengguna bisa menekan dan menahan salah satu titik simpul persegi dan menariknya ke arah luar untuk </P>
+      <P> memperbesar persegi ataupun ke arah dalam untuk memperkecil persegi. </P>
+
+      <p>3. Poligon:</p>
+      <P> - Untuk menggambar poligon, pertama tentukan jumlah sisi poligon yang diinginkan dengan menulis </P>
+      <P> pada kotak input sisi poligon.</P>
+      <P> - Pengguna bisa menekan tombol polygon pada pilihan tombol yang tersedia yang akan membentuk bidang poligon</P>
+      <P> dengan jumlah sisi yang ditentukan pada canvas. </P>
+
+      <P>4. Mengubah warna: </P>
+      <P> - Untuk mengubah warna, hal yang pertama dilakukan adalah menekan tombol yang berwarna pada pilihan tombol.</P>
+      <P> - Dari sini, bisa dilakukan perubahan warna dengan merubah nilai RGB. Bisa dengan menuliskan nilai dari RGB </P>
+      <P> dan bisa juga menggunakan colour picker. </P>
+      <P> - Selanjutnya pemberian warna pada bidang yang diinginkan dilakukan dengan mengklik bidang tersebut. </P>
+
+      <p>5. Meload/Menyimpan Data: </p>
+      <p> - Untuk menyimpan model yang telah terbentuk di canvas, pengguna bisa menekan tombol .. pada pilihan tombol</p>
+      <p> - Untuk membuka model pengguna bisa menekan tombol (..) pada pilihan tombol</p>
+      <p> - Untuk melakukan perubahan secara manual pada model, pengguna bisa merubah titik koordinat maupun warna pada file yang sesuai.</p>
+    </div>
   </div>
   <script src="./index.js"></script>
   <script src="./TitikSudut.js"></script>
