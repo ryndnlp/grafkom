@@ -40,8 +40,8 @@ class TitikSudut{
     gl.drawArrays(gl.TRIANGLE_FAN, 0, arr.length / 2)
   }
 
-  move(destX, destY, fromX, fromY){
+  move(destX, destY){
     this.changeXY(destX, destY)
-    this.changeSudut(destX, destY, fromX, fromY)
+    this.changeSudut(destX, destY)
   }
 }

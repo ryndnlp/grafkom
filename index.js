@@ -5,37 +5,36 @@ var main = document.getElementById('main');
 main.appendChild(canvas);
 canvas.id = 'canvas'
 
+// ---- Init ----- //
 
 var gl = canvas.getContext('webgl');
 
-
-
 var vertexShader = gl.createShader(gl.VERTEX_SHADER)
-  gl.shaderSource(vertexShader, [
-    'attribute vec2 position;',
-    'void main(){',
-      'gl_Position = vec4(position, 0.0, 1.0);', 
-    '}'
-  ].join('\n'))
-  gl.compileShader(vertexShader)
-  var fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
-  gl.shaderSource(fragmentShader, [
-    'precision highp float;',
-    'uniform vec4 color;',
-    'void main(){',
-      'gl_FragColor = color;',
-    '}'
-  ].join('\n'))
-  gl.compileShader(fragmentShader)
+gl.shaderSource(vertexShader, [
+  'attribute vec2 position;',
+  'void main(){',
+    'gl_Position = vec4(position, 0.0, 1.0);', 
+  '}'
+].join('\n'))
+gl.compileShader(vertexShader)
+var fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
+gl.shaderSource(fragmentShader, [
+  'precision highp float;',
+  'uniform vec4 color;',
+  'void main(){',
+    'gl_FragColor = color;',
+  '}'
+].join('\n'))
+gl.compileShader(fragmentShader)
 
 
-  var program = gl.createProgram()
-  gl.attachShader(program, vertexShader)
-  gl.attachShader(program, fragmentShader)
-  gl.linkProgram(program)
+var program = gl.createProgram()
+gl.attachShader(program, vertexShader)
+gl.attachShader(program, fragmentShader)
+gl.linkProgram(program)
 
-  var buffer = gl.createBuffer()
-
+var buffer = gl.createBuffer()
+// ----  ----- //
 function setup(){
   gl.clearColor(1, 1, 1, 1);
   gl.clear(gl.COLOR_BUFFER_BIT)
@@ -56,40 +55,20 @@ function setup(){
 setup()
 
 
-let p = new Persegi(new Float32Array([
-  -0.2,-0.2,
-  0.2,-0.2,
-  0.2,0.2,
-  -0.2,0.2
-], {
-  red: 10,
-  green: 100,
-  blue: 150
-})
-);
+let p;
 
-let l = new Persegi(new Float32Array([
-  0.4,0.4,
-  0.8,0.4,
-  0.8,0.8,
-  0.4,0.8
-], {
-  red: 10,
-  green: 100,
-  blue: 150
-})
-);
-
-function persegi(){
-  var color = document.getElementById('color');
-  var val = hexToRgb(color.value);
-  p.color = val;
-  l.color = val;
+function makePersegi(){
+  var persegiTs = document.getElementById('persegiTs');
+  var persegiVal = persegiTs.value.split(',');
+  persegiVal = persegiVal.map(v => parseFloat(v));
+  
+  persegiVal = new Float32Array([...persegiVal]);
+  
+  p = new Persegi(persegiVal, [0, 200, 0]);
 
   p.draw();
-  objects.push(p)
-  l.draw();
-  objects.push(l)
+  objects.push(p);
+  drawAll();
 }
 
 //Global vars
@@ -99,8 +78,6 @@ var fromY;
 var destX;
 var destY;
 
-
-
 let selectedTS;
 
 canvas.onmouseup = function(event){
@@ -109,8 +86,7 @@ canvas.onmouseup = function(event){
   }
   destX = getCoorX(event.clientX)
   destY = getCoorY(event.clientY)
-  console.log(destX, destY)
-  selectedTS.move(destX, destY, fromX, fromY);
+  selectedTS.move(destX, destY);
   if(!selectedObj){
     return;
   }
@@ -130,7 +106,6 @@ function checkSelectedObject(x, y){
     }
   }
 }
-
 
 function checkSelectedTitikSudut(x, y){
   for(let obj of objects){
@@ -159,10 +134,18 @@ canvas.onmousedown = function(event){
   selectedTS = undefined;
   fromX = getCoorX(event.clientX)
   fromY = getCoorY(event.clientY)
-  console.log(fromX, fromY);
 
   checkSelectedTitikSudut(fromX, fromY)
 
   selectedObj = undefined;
   checkSelectedObject(fromX, fromY)
+
+  var color = document.getElementById('color');
+  var val = hexToRgb(color.value);
+
+  if(selectedObj){
+    selectedObj.color = val;
+    drawAll()
+  }
 }
+

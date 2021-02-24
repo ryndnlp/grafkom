@@ -1,10 +1,9 @@
 class Persegi{
   constructor(vertices, color){
     this.vertices = vertices;
-    this.centerX = (vertices[0]+vertices[2]) / 2;
-    this.centerY = (vertices[1]+vertices[5]) / 2;
-    this.length = vertices[2] - vertices[0];
     this.color = color;
+    this.centerX = (this.vertices[0] + this.vertices[2]) / 2;
+    this.centerY = (this.vertices[3] + this.vertices[5]) / 2;
     if(!this.color){
       this.color = [100, 100, 100]
     }
@@ -31,24 +30,25 @@ class Persegi{
     this.ts3.draw();
     this.ts4.draw();
   }
-  changeSudut = (destX, destY, fromX, fromY) =>{
-    console.log(destX, destY, fromX, fromY)
-    let diffX = destX - fromX;
-    let diffY = destY - fromY;
+  changeSudut = (destX, destY) =>{
+    let diffX = destX - this.centerX;
+    let diffY = destY - this.centerY;
     let len;
     if(Math.abs(diffX) > Math.abs(diffY)){
-      len = diffX;
+      len = Math.abs(diffX);
     }else{
-      len = diffY;
+      len = Math.abs(diffY);
     }
-    this.vertices[0] += len;
-    this.vertices[1] += len;
-    this.vertices[2] -= len;
-    this.vertices[3] += len;
-    this.vertices[4] -= len;
-    this.vertices[5] -= len;
-    this.vertices[6] += len;
-    this.vertices[7] -= len;
+    
+    this.vertices[0] = this.centerX - len;
+    this.vertices[1] = this.centerY - len;
+    this.vertices[2] = this.centerX + len;
+    this.vertices[3] = this.centerY - len;
+    this.vertices[4] = this.centerX + len;
+    this.vertices[5] = this.centerY + len;
+    this.vertices[6] = this.centerX - len;
+    this.vertices[7] = this.centerY + len;
+    
     this.ts1.changeXY(this.vertices[0], this.vertices[1]);
     this.ts2.changeXY(this.vertices[2], this.vertices[3]);
     this.ts3.changeXY(this.vertices[4], this.vertices[5]);
@@ -58,6 +58,10 @@ class Persegi{
   changeColor(color){
     this.color = color;
     drawAll();
+  }
+  isInsideBentuk(x, y){
+    
+    return this.vertices[0] <= x && this.vertices[2] >= x && this.vertices[1] <= y && this.vertices[5] >= y
   }
 }
 

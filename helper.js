@@ -26,5 +26,5 @@ const getCoorY = (y) => {
 }
 
 function isInsideBentuk(x, y, bentuk){
-  return bentuk.vertices[0] <= x && bentuk.vertices[4] >= x && bentuk.vertices[1] <= y && bentuk.vertices[5] 
+  return bentuk.vertices[0] <= x && bentuk.vertices[4] >= x && bentuk.vertices[1] <= y && bentuk.vertices[5] >= y
 }
