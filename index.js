@@ -71,6 +71,13 @@ function makePersegi(){
   drawAll();
 }
 
+let pol;
+
+function makePoligon(){
+  pol = new Poligon(5, [0, 0, 200], 0.0, 0.0);
+  pol.draw()
+}
+
 //Global vars
 var objects = [];
 var fromX;
@@ -149,3 +156,45 @@ canvas.onmousedown = function(event){
   }
 }
 
+function exportFile(){
+  var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(objects));
+  var downloadAnchorNode = document.createElement('a');
+  downloadAnchorNode.setAttribute("href", dataStr);
+  downloadAnchorNode.setAttribute("download", "file.json");
+  document.body.appendChild(downloadAnchorNode);
+  downloadAnchorNode.click();
+  downloadAnchorNode.remove();
+}
+
+function importFile(){
+  objects = [];
+  let file = document.getElementById("file");
+
+  let { files } = file;
+  let [ uploaded ] = files;
+
+  if (files) {
+
+    var reader = new FileReader();
+    reader.readAsText(uploaded, "UTF-8");
+
+    reader.onload = function (e) {
+      const res = JSON.parse(e.target.result);
+      res.forEach(item => {
+        console.log(item)
+        if(item.tipe == 'persegi'){
+          let v = [];
+          Object.values(item.vertices).forEach(val => {v.push(val)});
+          v = new Float32Array([...v]);
+          item.vertices = v;
+          objects.push(new Persegi(v, item.color));
+        }
+      })
+      console.log(objects)
+      drawAll()
+    }
+    reader.onerror = function(e){
+      console.log('Error');
+    }
+  }
+}

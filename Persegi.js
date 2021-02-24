@@ -11,6 +11,7 @@ class Persegi{
     this.ts2 = new TitikSudut(this.vertices[2], this.vertices[3], this.changeSudut);
     this.ts3 = new TitikSudut(this.vertices[4], this.vertices[5], this.changeSudut);
     this.ts4 = new TitikSudut(this.vertices[6], this.vertices[7], this.changeSudut);
+    this.tipe = 'persegi';
   }
   
   draw(){
@@ -60,7 +61,6 @@ class Persegi{
     drawAll();
   }
   isInsideBentuk(x, y){
-    
     return this.vertices[0] <= x && this.vertices[2] >= x && this.vertices[1] <= y && this.vertices[5] >= y
   }
 }

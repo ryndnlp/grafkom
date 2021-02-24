@@ -17,11 +17,14 @@
     <input type="color" id="color" />
     <span>Titik persegi</span>
     <input type="text" id="persegiTs" />
+    <button onclick="makePoligon()">Buat Poligon</button>
+    <button onclick="exportFile()">Export</button>
+    <input type="file" id="file" onchange="importFile()" />
   </div>
-  
-  <script src="./Persegi.js"></script>
-  <script src="./TitikSudut.js"></script>
   <script src="./index.js"></script>
+  <script src="./TitikSudut.js"></script>
+  <script src="./Persegi.js"></script>
+  <script src="./Poligon.js"></script>
   <script src="./helper.js"></script>
 </body>
 </html>
